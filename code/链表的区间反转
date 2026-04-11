@@ -111,7 +111,7 @@ Node* fast = L1;
 while(fast && fast->next){
     slow = slow->next;
     fast = fast->next->next;
-}。                                  slow即为（后半段起点）
+}。                                  slow即为（后半段起点）（对应的欧偶数情况）
 
 
 Node* inverse(Node* head){
