@@ -1,4 +1,4 @@
-##栈的操作：
+z##栈的操作：
 
 1、栈的定义：
   #define MAXINZE 100;
@@ -67,6 +67,86 @@ int pop (Stack *s,int *x){
       return 1;
   }
 
+#顺序队列.   (front 指向第一个元素，rear指向最后一个元素的后一个位置）
+1、定义：
+#define MAXSIZE 100
+typedef struct {
+       int data[MAXINZE];
+       int front;
+        int rear;
+}Queue;
+
+2、初始化:
+void init(Queue*q){
+    q->front=q->rear=0;
+}
+
+3、判空；
+int isEmpty(Queue*q){
+     return q->front==q->rear;
+}
+
+4、判满：
+int isFull(Queue*q){
+    return (q->rear+1)%MAXSIZE==q->front;
+}
+
+5、入队：
+int enqueue(Queue*q,int x){
+    if(isFull(q)) return 0;
+    q->data[q->rear]=x;
+    q->rear=(q->rear+1)%MAXSIZE;
+    return 1;
+}
+
+6、出队：
+int dequeue(Queue*q,int *x){
+    if(isEmpty(q)) return 0;
+    *x=q->data[q->front];
+    q->front=(q->front+1)%MAXSIZE;
+    return 1;
+}
+
      
+#链队列；（front指向头节点，并且始终不动；rear指向尾节点）
+
+1、定义：
+typedef struct Node{
+    int data;
+    struct Node*next;
+}Node;
+
+typedef struct{
+    Node*front;
+    Node*rear;
+}Queue;
 
 
+2、初始化：
+void init(Queue*q){
+    q->front=q->rear=NULL;
+} 
+
+3、入队：
+void enqueue(Queue*q,int x){
+    Node*p=(Node*)malloc(sizeof(Node));
+    p->data=x;
+    p->next=NULL;
+    if(q->rear==NULL){
+        q->front=q->rear=p;
+    }else{
+      q->rear->next=p;
+      q->rear=p;
+}
+
+4、出队:
+int dequeue (Queue*q,int*x){
+    if(q->front==NULL) return 0;
+    Node*p=q->front;
+    *x=p->data;
+    q->front=p->next;
+    if(q->front==NULL)
+         q->rear=NULL;
+    free(p);
+    return 1;
+}
