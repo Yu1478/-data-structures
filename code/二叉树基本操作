@@ -1,0 +1,174 @@
+1、存储（链式存储）：
+typedef struct treenode{
+       int data;
+       struct treenode*left;
+       struct treenode*right;
+}treenode;
+
+2、创建节点：
+treenode* createnode(int val){
+    treenode*newnode=(treenode*)malloc(sizeof(treenode));
+    newnode->data=val;
+    newnode->left=NULL;
+    newnode->right=NULL;
+    return newnode;
+}
+
+3、遍历:
+void preorder(treenode*T)
+{
+      if(T==NULL) return;
+      printf(%d",T->data);
+      preorder(T->left);
+      preorder(T->right);
+}
+
+void inorder(treenode*T){
+      if(T==NULL) return;
+      inorder(T->left);
+      printf(%d",T->data);
+      inorder(T->right);
+}
+
+void postorder(treenode*T)[
+      if(T==NULL) return;
+      postorder(T->left);
+      postorder(T->right);
+      printf(%d",T->data);
+}
+
+4、计算节点数:
+int countnodes(treenode*T){
+     if(T==NULL) return 0;
+     return countnodes(T->left)+countnodes(T->right)+1;
+  }
+
+5、计算深度:
+int height(treenode*T)
+     if(T==NULL) return0;
+     int left=height(T->left);
+     int right=height(T->right);
+     int max;
+     if(left>right) max=left;
+     else max=right;
+     return max+1;
+  }
+6、节点查找（只找第一个）
+treenode*search(treenode*T,int target){
+     if(T==NULL) return NULL;
+     if(t->data==target) return T;
+     treenode*result=search(T->left,target);
+     if(result!=NULL) return result;
+     return search(T->right,target);
+}
+
+7、BST插入（左子树小于根小于右子树）
+TreeNode* insert(TreeNode* root, int val) {
+
+    if (root == NULL)
+        return createNode(val);
+
+    if (val < root->val) {
+
+        root->left = insert(root->left, val);
+
+    } else {
+
+        root->right = insert(root->right, val);
+    }
+
+    return root;
+}
+
+8、内存释放
+void freeTree(TreeNode* root) {
+
+    if (root == NULL)
+        return;
+
+    freeTree(root->left);
+
+    freeTree(root->right);
+
+    free(root);
+}
+9、构建完整的二叉树（递归）
+treenode*build(){
+     int val;
+     scanf("%d",&val);
+     if(val==-1) return NULL;
+     treenode*root=creatnode(val);
+     root->left=build();
+     root->right=build();
+     return root;
+  }
+
+10、复制子树
+TreeNode* copyTree(TreeNode* root) {
+
+    // 空树
+    if (root == NULL)
+        return NULL;
+
+    // 复制当前节点
+    TreeNode* newNode = createNode(root->val);
+
+    // 复制左子树
+    newNode->left = copyTree(root->left);
+
+    // 复制右子树
+    newNode->right = copyTree(root->right);
+
+    return newNode;
+}
+
+
+其他：
+1、非递归便遍历：
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX 100
+
+typedef struct TreeNode {
+    int val;
+    struct TreeNode* left;
+    struct TreeNode* right;
+} TreeNode;
+
+TreeNode* stack[MAX];
+int top = -1;
+
+void push(TreeNode* node) {
+    stack[++top] = node;
+}
+
+TreeNode* pop() {
+    return stack[top--];
+}
+
+int isEmpty() {
+    return top == -1;
+}
+
+void preorderNonRecursive(TreeNode* root) {
+
+    if (root == NULL)
+        return;
+
+    push(root);
+
+    while (!isEmpty()) {
+
+        TreeNode* cur = pop();
+
+        printf("%d ", cur->val);
+
+        // 先右后左
+        if (cur->right)
+            push(cur->right);
+
+        if (cur->left)
+            push(cur->left);
+    }
+}
